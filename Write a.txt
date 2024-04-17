@@ -1,0 +1,3291 @@
+1 Write a C program to implement the concept of Bubble sort on the above data set. Print the data
+set after every iteration.
+
+#include <stdio.h>
+
+// Function to swap two integers
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Function to perform Bubble Sort
+void bubbleSort(int arr[], int n) {
+    int i, j;
+
+    for (i = 0; i < n-1; i++) {
+        // Last i elements are already sorted
+        for (j = 0; j < n-i-1; j++) {
+            // Swap if the element found is greater than the next element
+            if (arr[j] > arr[j+1]) {
+                swap(&arr[j], &arr[j+1]);
+            }
+        }
+        // Print the array after every iteration
+        printf("After iteration %d: ", i+1);
+        for (int k = 0; k < n; k++) {
+            printf("%d ", arr[k]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    
+    printf("Original array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    bubbleSort(arr, n);
+
+    printf("Sorted array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+
+2. Write a C program to implement the concept of Selection sort on the above data set. Print the
+data set after every iteration.
+
+#include <stdio.h>
+
+// Function to swap two integers
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Function to perform Selection Sort
+void selectionSort(int arr[], int n) {
+    int i, j, min_idx;
+
+    for (i = 0; i < n-1; i++) {
+        min_idx = i;
+        // Find the minimum element in the unsorted part of the array
+        for (j = i+1; j < n; j++) {
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j;
+            }
+        }
+        // Swap the found minimum element with the first element
+        swap(&arr[min_idx], &arr[i]);
+        
+        // Print the array after every iteration
+        printf("After iteration %d: ", i+1);
+        for (int k = 0; k < n; k++) {
+            printf("%d ", arr[k]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    
+    printf("Original array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    selectionSort(arr, n);
+
+    printf("Sorted array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+
+
+3. Write a C program to implement the concept of Insertion sort on the above data set. Print the
+data set after every iteration.
+
+#include <stdio.h>
+
+// Function to perform Insertion Sort
+void insertionSort(int arr[], int n) {
+    int i, key, j;
+
+    for (i = 1; i < n; i++) {
+        key = arr[i];
+        j = i - 1;
+
+        // Move elements of arr[0..i-1], that are greater than key, to one position ahead of their current position
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+
+        // Print the array after every iteration
+        printf("After iteration %d: ", i);
+        for (int k = 0; k < n; k++) {
+            printf("%d ", arr[k]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Original array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    insertionSort(arr, n);
+
+    printf("Sorted array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+
+
+4. Write a C program to implement the concept of Quick sort on the above data set. Print the data
+set after every iteration.
+
+#include <stdio.h>
+
+// Function to swap two elements
+void swap(int* a, int* b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
+// Function to partition the array and return the partitioning index
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];  // pivot
+    int i = (low - 1);  // Index of smaller element
+
+    for (int j = low; j <= high - 1; j++) {
+        // If current element is smaller than the pivot
+        if (arr[j] < pivot) {
+            i++;    // increment index of smaller element
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+// Function to perform Quick Sort
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        // Partitioning index
+        int pi = partition(arr, low, high);
+
+        // Separately sort elements before partition and after partition
+        printf("After partitioning at index %d: ", pi);
+        for (int k = low; k <= high; k++) {
+            printf("%d ", arr[k]);
+        }
+        printf("\n");
+
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Original array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    quickSort(arr, 0, n - 1);
+
+    printf("Sorted array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+
+
+5.  Write a C program to implement the concept of Merge sort on the above data set. Print the data
+set after every iteration.
+
+#include <stdio.h>
+
+// Function to merge two sub-arrays of arr[]
+// First sub-array is arr[l..m]
+// Second sub-array is arr[m+1..r]
+void merge(int arr[], int l, int m, int r) {
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // Create temporary arrays
+    int L[n1], R[n2];
+
+    // Copy data to temporary arrays L[] and R[]
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    // Merge the temporary arrays back into arr[l..r]
+    i = 0; // Initial index of first sub-array
+    j = 0; // Initial index of second sub-array
+    k = l; // Initial index of merged sub-array
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copy the remaining elements of L[], if any
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of R[], if any
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+
+    // Print the array after every merge
+    printf("After merging: ");
+    for (int p = l; p <= r; p++)
+        printf("%d ", arr[p]);
+    printf("\n");
+}
+
+// Main function to implement Merge Sort
+void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+        // Same as (l+r)/2, but avoids overflow for large l and r
+        int m = l + (r - l) / 2;
+
+        // Sort first and second halves
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        // Merge the sorted halves
+        merge(arr, l, m, r);
+    }
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Original array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    mergeSort(arr, 0, n - 1);
+
+    printf("Sorted array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+
+
+6. Write a C program to show that Quick sort is better than Bubble sort.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Function to swap two elements
+void swap(int* a, int* b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
+// Function to partition the array and return the partitioning index
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];  // pivot
+    int i = (low - 1);  // Index of smaller element
+
+    for (int j = low; j <= high - 1; j++) {
+        // If current element is smaller than the pivot
+        if (arr[j] < pivot) {
+            i++;    // increment index of smaller element
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+// Function to perform Quick Sort
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        // Partitioning index
+        int pi = partition(arr, low, high);
+
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+// Function to perform Bubble Sort
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(&arr[j], &arr[j + 1]);
+            }
+        }
+    }
+}
+
+int main() {
+    srand(time(NULL)); // Seed for random number generation
+
+    int n = 10000; // Size of the array
+    int arr1[n], arr2[n]; // Arrays to be sorted
+
+    // Fill arrays with random numbers
+    for (int i = 0; i < n; i++) {
+        arr1[i] = rand() % 10000;
+        arr2[i] = arr1[i];
+    }
+
+    clock_t start, end;
+    double cpu_time_used;
+
+    // Timing Quick Sort
+    start = clock();
+    quickSort(arr1, 0, n - 1);
+    end = clock();
+    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    printf("Time taken by Quick Sort: %lf seconds\n", cpu_time_used);
+
+    // Timing Bubble Sort
+    start = clock();
+    bubbleSort(arr2, n);
+    end = clock();
+    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    printf("Time taken by Bubble Sort: %lf seconds\n", cpu_time_used);
+
+    return 0;
+}
+
+
+7. Write a C program to show that merge sort is more effective than quick sort.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Function to swap two elements
+void swap(int* a, int* b) {
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
+// Function to partition the array and return the partitioning index
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];  // pivot
+    int i = (low - 1);  // Index of smaller element
+
+    for (int j = low; j <= high - 1; j++) {
+        // If current element is smaller than the pivot
+        if (arr[j] < pivot) {
+            i++;    // increment index of smaller element
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+// Function to perform Quick Sort
+int quickSort(int arr[], int low, int high) {
+    static int comparisons = 0; // Counter for comparisons
+
+    if (low < high) {
+        // Partitioning index
+        int pi = partition(arr, low, high);
+
+        // Recursively sort elements before partition and after partition
+        comparisons += high - low;
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+
+    return comparisons;
+}
+
+// Function to merge two sub-arrays of arr[]
+// First sub-array is arr[l..m]
+// Second sub-array is arr[m+1..r]
+void merge(int arr[], int l, int m, int r) {
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // Create temporary arrays
+    int L[n1], R[n2];
+
+    // Copy data to temporary arrays L[] and R[]
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    // Merge the temporary arrays back into arr[l..r]
+    i = 0; // Initial index of first sub-array
+    j = 0; // Initial index of second sub-array
+    k = l; // Initial index of merged sub-array
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copy the remaining elements of L[], if any
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of R[], if any
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+// Function to perform Merge Sort
+int mergeSort(int arr[], int l, int r) {
+    static int comparisons = 0; // Counter for comparisons
+
+    if (l < r) {
+        // Same as (l+r)/2, but avoids overflow for large l and r
+        int m = l + (r - l) / 2;
+
+        // Sort first and second halves
+        comparisons += mergeSort(arr, l, m);
+        comparisons += mergeSort(arr, m + 1, r);
+
+        // Merge the sorted halves
+        merge(arr, l, m, r);
+    }
+
+    return comparisons;
+}
+
+int main() {
+    srand(time(NULL)); // Seed for random number generation
+
+    int n = 10000; // Size of the array
+    int arr1[n], arr2[n]; // Arrays to be sorted
+
+    // Fill arrays with random numbers
+    for (int i = 0; i < n; i++) {
+        arr1[i] = rand() % 10000;
+        arr2[i] = arr1[i];
+    }
+
+    // Perform Quick Sort and calculate number of comparisons
+    int quickComparisons = quickSort(arr1, 0, n - 1);
+
+    // Perform Merge Sort and calculate number of comparisons
+    int mergeComparisons = mergeSort(arr2, 0, n - 1);
+
+    printf("Number of comparisons for Quick Sort: %d\n", quickComparisons);
+    printf("Number of comparisons for Merge Sort: %d\n", mergeComparisons);
+
+    return 0;
+}
+
+
+Week 2;
+
+1. Write a C program to create a binary tree using recursive function and display that level
+wise.
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL) {
+        root = createNode(data);
+    } else {
+        if (data <= root->data) {
+            root->left = insertNode(root->left, data);
+        } else {
+            root->right = insertNode(root->right, data);
+        }
+    }
+    return root;
+}
+
+// Function to display a level of the binary tree
+void printLevel(struct TreeNode* root, int level) {
+    if (root == NULL)
+        return;
+    if (level == 1)
+        printf("%d ", root->data);
+    else if (level > 1) {
+        printLevel(root->left, level - 1);
+        printLevel(root->right, level - 1);
+    }
+}
+
+// Function to get the height of the binary tree
+int getHeight(struct TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    else {
+        int leftHeight = getHeight(root->left);
+        int rightHeight = getHeight(root->right);
+
+        if (leftHeight > rightHeight)
+            return leftHeight + 1;
+        else
+            return rightHeight + 1;
+    }
+}
+
+// Function to display the binary tree level-wise
+void printLevelOrder(struct TreeNode* root) {
+    int height = getHeight(root);
+    for (int i = 1; i <= height; i++) {
+        printf("Level %d: ", i);
+        printLevel(root, i);
+        printf("\n");
+    }
+}
+
+int main() {
+    struct TreeNode* root = NULL;
+
+    // Inserting nodes into the binary tree
+    root = insertNode(root, 50);
+    root = insertNode(root, 30);
+    root = insertNode(root, 70);
+    root = insertNode(root, 20);
+    root = insertNode(root, 40);
+    root = insertNode(root, 60);
+    root = insertNode(root, 80);
+
+    // Displaying the binary tree level-wise
+    printf("Binary Tree Level-wise:\n");
+    printLevelOrder(root);
+
+    return 0;
+}
+
+2. Write a C program to create a binary tree using non-recursive function and display that
+level wise.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Structure for a queue node
+struct QueueNode {
+    struct TreeNode* data;
+    struct QueueNode* next;
+};
+
+// Structure for a queue
+struct Queue {
+    struct QueueNode *front, *rear;
+};
+
+// Function to create a new tree node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to create a new queue node
+struct QueueNode* createQueueNode(struct TreeNode* data) {
+    struct QueueNode* newNode = (struct QueueNode*)malloc(sizeof(struct QueueNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to create an empty queue
+struct Queue* createQueue() {
+    struct Queue* q = (struct Queue*)malloc(sizeof(struct Queue));
+    if (q == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    q->front = q->rear = NULL;
+    return q;
+}
+
+// Function to check if the queue is empty
+int isEmpty(struct Queue* q) {
+    return (q->front == NULL);
+}
+
+// Function to enqueue a tree node
+void enqueue(struct Queue* q, struct TreeNode* data) {
+    struct QueueNode* newNode = createQueueNode(data);
+    if (isEmpty(q)) {
+        q->front = q->rear = newNode;
+    } else {
+        q->rear->next = newNode;
+        q->rear = newNode;
+    }
+}
+
+// Function to dequeue a tree node
+struct TreeNode* dequeue(struct Queue* q) {
+    if (isEmpty(q)) {
+        printf("Queue is empty!\n");
+        exit(1);
+    }
+    struct QueueNode* temp = q->front;
+    struct TreeNode* data = temp->data;
+    q->front = q->front->next;
+    if (q->front == NULL)
+        q->rear = NULL;
+    free(temp);
+    return data;
+}
+
+// Function to insert a node into the binary tree
+void insertNode(struct TreeNode** root, int data) {
+    struct TreeNode* newNode = createNode(data);
+    if (*root == NULL) {
+        *root = newNode;
+        return;
+    }
+    struct Queue* q = createQueue();
+    enqueue(q, *root);
+    while (!isEmpty(q)) {
+        struct TreeNode* temp = dequeue(q);
+        if (temp->left != NULL)
+            enqueue(q, temp->left);
+        else {
+            temp->left = newNode;
+            free(q);
+            return;
+        }
+        if (temp->right != NULL)
+            enqueue(q, temp->right);
+        else {
+            temp->right = newNode;
+            free(q);
+            return;
+        }
+    }
+}
+
+// Function to display the binary tree level-wise
+void printLevelOrder(struct TreeNode* root) {
+    if (root == NULL)
+        return;
+    struct Queue* q = createQueue();
+    enqueue(q, root);
+    while (!isEmpty(q)) {
+        int nodesAtCurrentLevel = q->rear - q->front + 1;
+        for (int i = 0; i < nodesAtCurrentLevel; i++) {
+            struct TreeNode* temp = dequeue(q);
+            printf("%d ", temp->data);
+            if (temp->left != NULL)
+                enqueue(q, temp->left);
+            if (temp->right != NULL)
+                enqueue(q, temp->right);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    struct TreeNode* root = NULL;
+
+    // Inserting nodes into the binary tree
+    insertNode(&root, 50);
+    insertNode(&root, 30);
+    insertNode(&root, 70);
+    insertNode(&root, 20);
+    insertNode(&root, 40);
+    insertNode(&root, 60);
+    insertNode(&root, 80);
+
+    // Displaying the binary tree level-wise
+    printf("Binary Tree Level-wise:\n");
+    printLevelOrder(root);
+
+    return 0;
+}
+
+
+3. Write a C program to create a binary tree using array only and display the tree level wise.
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+// Function to display the binary tree level-wise
+void printLevelOrder(int arr[], int size) {
+    int i = 0;
+    while (i < size) {
+        printf("%d\n", arr[i]);
+        i++;
+    }
+}
+
+int main() {
+    int arr[MAX_SIZE];
+    int size, i;
+
+    // Input size of the array
+    printf("Enter the number of elements in the array: ");
+    scanf("%d", &size);
+
+    // Input array elements
+    printf("Enter the elements of the array:\n");
+    for (i = 0; i < size; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Displaying the binary tree level-wise
+    printf("Binary Tree Level-wise:\n");
+    printLevelOrder(arr, size);
+
+    return 0;
+}
+
+
+
+4. Write a C program to identify the height of a binary tree.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to calculate the height of a binary tree
+int getHeight(struct TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    else {
+        // Recursively calculate the height of the left and right subtrees
+        int leftHeight = getHeight(root->left);
+        int rightHeight = getHeight(root->right);
+
+        // Return the maximum height among left and right subtrees, plus 1 (for the current node)
+        return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+    }
+}
+
+int main() {
+    // Creating a binary tree
+    struct TreeNode* root = createNode(1);
+    root->left = createNode(2);
+    root->right = createNode(3);
+    root->left->left = createNode(4);
+    root->left->right = createNode(5);
+    root->right->right = createNode(6);
+
+    // Calculating the height of the binary tree
+    int height = getHeight(root);
+
+    // Displaying the height of the binary tree
+    printf("Height of the binary tree: %d\n", height);
+
+    return 0;
+}
+
+
+5. Write a C program to identify degree of a given node.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to find a node in the binary tree
+struct TreeNode* findNode(struct TreeNode* root, int key) {
+    if (root == NULL || root->data == key)
+        return root;
+    
+    // Search in the left subtree
+    struct TreeNode* leftResult = findNode(root->left, key);
+    if (leftResult != NULL)
+        return leftResult;
+
+    // Search in the right subtree
+    return findNode(root->right, key);
+}
+
+// Function to calculate the degree of a given node
+int calculateDegree(struct TreeNode* root, int key) {
+    // Find the given node
+    struct TreeNode* node = findNode(root, key);
+
+    // If node is not found, return -1
+    if (node == NULL)
+        return -1;
+
+    // Count the number of children
+    int degree = 0;
+    if (node->left != NULL)
+        degree++;
+    if (node->right != NULL)
+        degree++;
+
+    return degree;
+}
+
+int main() {
+    // Creating a binary tree
+    struct TreeNode* root = createNode(1);
+    root->left = createNode(2);
+    root->right = createNode(3);
+    root->left->left = createNode(4);
+    root->left->right = createNode(5);
+    root->right->right = createNode(6);
+
+    // Finding the degree of a given node
+    int nodeData = 2; // Example: finding the degree of node with data 2
+    int degree = calculateDegree(root, nodeData);
+
+    if (degree == -1)
+        printf("Node not found in the binary tree.\n");
+    else
+        printf("Degree of node %d is %d.\n", nodeData, degree);
+
+    return 0;
+}
+
+
+6. Write a C program to count number of leaf node present in a binary tree.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to count the number of leaf nodes in a binary tree
+int countLeafNodes(struct TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    if (root->left == NULL && root->right == NULL)
+        return 1;
+    else
+        return countLeafNodes(root->left) + countLeafNodes(root->right);
+}
+
+int main() {
+    // Creating a binary tree
+    struct TreeNode* root = createNode(1);
+    root->left = createNode(2);
+    root->right = createNode(3);
+    root->left->left = createNode(4);
+    root->left->right = createNode(5);
+    root->right->right = createNode(6);
+    root->right->right->left = createNode(7);
+
+    // Counting the number of leaf nodes
+    int leafCount = countLeafNodes(root);
+
+    printf("Number of leaf nodes in the binary tree: %d\n", leafCount);
+
+    return 0;
+}
+
+
+
+7. Write a C program to count number of internal node present in a binary tree.
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to count the number of internal nodes in a binary tree
+int countInternalNodes(struct TreeNode* root) {
+    if (root == NULL || (root->left == NULL && root->right == NULL))
+        return 0;
+    else
+        return 1 + countInternalNodes(root->left) + countInternalNodes(root->right);
+}
+
+int main() {
+    // Creating a binary tree
+    struct TreeNode* root = createNode(1);
+    root->left = createNode(2);
+    root->right = createNode(3);
+    root->left->left = createNode(4);
+    root->left->right = createNode(5);
+    root->right->right = createNode(6);
+    root->right->right->left = createNode(7);
+
+    // Counting the number of internal nodes
+    int internalNodeCount = countInternalNodes(root);
+
+    printf("Number of internal nodes in the binary tree: %d\n", internalNodeCount);
+
+    return 0;
+}
+
+
+8. Write a C program to count number of node present in a given binary tree using linked
+list.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to count the number of nodes in a binary tree
+int countNodes(struct TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    else
+        return 1 + countNodes(root->left) + countNodes(root->right);
+}
+
+int main() {
+    // Creating a binary tree
+    struct TreeNode* root = createNode(1);
+    root->left = createNode(2);
+    root->right = createNode(3);
+    root->left->left = createNode(4);
+    root->left->right = createNode(5);
+    root->right->right = createNode(6);
+    root->right->right->left = createNode(7);
+
+    // Counting the number of nodes
+    int nodeCount = countNodes(root);
+
+    printf("Number of nodes in the binary tree: %d\n", nodeCount);
+
+    return 0;
+}
+
+
+9. Write a C program to count number of node present in a given binary tree using array.
+
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+// Function to count the number of nodes in a binary tree represented using an array
+int countNodes(int arr[], int size) {
+    int count = 0;
+    for (int i = 0; i < size; i++) {
+        if (arr[i] != -1) // Assuming -1 represents an empty node
+            count++;
+    }
+    return count;
+}
+
+int main() {
+    int binaryTree[MAX_SIZE] = {1, 2, 3, 4, 5, -1, 6, -1, -1, -1, -1, -1, -1}; // Example binary tree represented using an array
+    int size = 13; // Size of the array
+
+    // Counting the number of nodes
+    int nodeCount = countNodes(binaryTree, size);
+
+    printf("Number of nodes in the binary tree: %d\n", nodeCount);
+
+    return 0;
+}
+
+
+10. Write a C program to count number of siblings present in a binary tree.
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to find the parent of a given node in a binary tree
+struct TreeNode* findParent(struct TreeNode* root, struct TreeNode* node) {
+    if (root == NULL || root == node)
+        return NULL;
+    if (root->left == node || root->right == node)
+        return root;
+    struct TreeNode* leftResult = findParent(root->left, node);
+    if (leftResult != NULL)
+        return leftResult;
+    return findParent(root->right, node);
+}
+
+// Function to count the number of siblings of a given node in a binary tree
+int countSiblings(struct TreeNode* root, struct TreeNode* node) {
+    if (root == NULL || node == NULL)
+        return 0;
+    struct TreeNode* parent = findParent(root, node);
+    if (parent == NULL)
+        return 0;
+    int siblings = 0;
+    if (parent->left != NULL && parent->left != node)
+        siblings++;
+    if (parent->right != NULL && parent->right != node)
+        siblings++;
+    return siblings;
+}
+
+int main() {
+    // Creating a binary tree
+    struct TreeNode* root = createNode(1);
+    root->left = createNode(2);
+    root->right = createNode(3);
+    root->left->left = createNode(4);
+    root->left->right = createNode(5);
+    root->right->right = createNode(6);
+    root->right->right->left = createNode(7);
+
+    // Finding a node whose siblings we want to count (example: node with data 5)
+    struct TreeNode* nodeToCountSiblings = root->left->right;
+
+    // Counting the number of siblings
+    int siblingsCount = countSiblings(root, nodeToCountSiblings);
+
+    printf("Number of siblings of the node with data %d: %d\n", nodeToCountSiblings->data, siblingsCount);
+
+    return 0;
+}
+
+
+week 3
+
+1. Write a C program to create a binary search tree using recursive function and display that.
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL) {
+        root = createNode(data);
+    } else {
+        if (data <= root->data) {
+            root->left = insertNode(root->left, data);
+        } else {
+            root->right = insertNode(root->right, data);
+        }
+    }
+    return root;
+}
+
+// Function to display the binary search tree (inorder traversal)
+void displayBST(struct TreeNode* root) {
+    if (root != NULL) {
+        displayBST(root->left);
+        printf("%d ", root->data);
+        displayBST(root->right);
+    }
+}
+
+int main() {
+    struct TreeNode* root = NULL;
+
+    // Inserting nodes into the binary search tree
+    root = insertNode(root, 50);
+    root = insertNode(root, 30);
+    root = insertNode(root, 70);
+    root = insertNode(root, 20);
+    root = insertNode(root, 40);
+    root = insertNode(root, 60);
+    root = insertNode(root, 80);
+
+    // Displaying the binary search tree
+    printf("Binary Search Tree (inorder traversal):\n");
+    displayBST(root);
+    printf("\n");
+
+    return 0;
+}
+
+
+2. Write a C program to create a binary search tree using non-recursive function and display that.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree (non-recursive)
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    struct TreeNode* newNode = createNode(data);
+    if (root == NULL)
+        return newNode;
+
+    struct TreeNode* current = root;
+    struct TreeNode* parent = NULL;
+    while (current != NULL) {
+        parent = current;
+        if (data <= current->data)
+            current = current->left;
+        else
+            current = current->right;
+    }
+
+    if (data <= parent->data)
+        parent->left = newNode;
+    else
+        parent->right = newNode;
+
+    return root;
+}
+
+// Function to display the binary search tree (inorder traversal)
+void displayBST(struct TreeNode* root) {
+    if (root != NULL) {
+        displayBST(root->left);
+        printf("%d ", root->data);
+        displayBST(root->right);
+    }
+}
+
+int main() {
+    struct TreeNode* root = NULL;
+
+    // Inserting nodes into the binary search tree
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Displaying the binary search tree
+    printf("Binary Search Tree (inorder traversal):\n");
+    displayBST(root);
+    printf("\n");
+
+    return 0;
+}
+
+
+3. Write a C program to insert (by using a function) a specific element into an existing binary search
+tree and then display that.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data <= root->data)
+        root->left = insertNode(root->left, data);
+    else
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to display the binary search tree (inorder traversal)
+void displayBST(struct TreeNode* root) {
+    if (root != NULL) {
+        displayBST(root->left);
+        printf("%d ", root->data);
+        displayBST(root->right);
+    }
+}
+
+int main() {
+    // Creating the initial binary search tree
+    struct TreeNode* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Displaying the initial binary search tree
+    printf("Initial Binary Search Tree (inorder traversal):\n");
+    displayBST(root);
+    printf("\n");
+
+    // Inserting a specific element (data = 55) into the existing binary search tree
+    int elementToInsert = 55;
+    root = insertNode(root, elementToInsert);
+
+    // Displaying the modified binary search tree
+    printf("Modified Binary Search Tree (inorder traversal):\n");
+    displayBST(root);
+    printf("\n");
+
+    return 0;
+}
+
+
+4. Write a C program to search an element in a BST and show the result.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data <= root->data)
+        root->left = insertNode(root->left, data);
+    else
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to search for an element in the binary search tree
+struct TreeNode* searchBST(struct TreeNode* root, int key) {
+    if (root == NULL || root->data == key)
+        return root;
+
+    if (key < root->data)
+        return searchBST(root->left, key);
+    else
+        return searchBST(root->right, key);
+}
+
+int main() {
+    // Creating the binary search tree
+    struct TreeNode* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Element to search
+    int key = 40;
+
+    // Searching for the element in the binary search tree
+    struct TreeNode* result = searchBST(root, key);
+
+    // Displaying the search result
+    if (result != NULL)
+        printf("Element %d is found in the binary search tree.\n", key);
+    else
+        printf("Element %d is not found in the binary search tree.\n", key);
+
+    return 0;
+}
+
+
+5. Write a C program to take user name as input and display the sorted sequence of characters using
+BST.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    char data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(char data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a character into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, char data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to perform inorder traversal of the binary search tree
+void inorderTraversal(struct TreeNode* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%c", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+int main() {
+    char name[100];
+    printf("Enter your name: ");
+    scanf("%s", name);
+
+    // Construct the binary search tree
+    struct TreeNode* root = NULL;
+    int len = strlen(name);
+    for (int i = 0; i < len; i++) {
+        root = insertNode(root, name[i]);
+    }
+
+    // Display the sorted sequence of characters
+    printf("Sorted sequence of characters in your name: ");
+    inorderTraversal(root);
+    printf("\n");
+
+    return 0;
+}
+
+
+6. Write a C program to sort a given set of integers using BST.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to perform inorder traversal of the binary search tree
+void inorderTraversal(struct TreeNode* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+int main() {
+    int n;
+    printf("Enter the number of integers: ");
+    scanf("%d", &n);
+
+    int *arr = (int *)malloc(n * sizeof(int));
+    if (arr == NULL) {
+        printf("Memory allocation failed!\n");
+        return 1;
+    }
+
+    printf("Enter the integers:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Construct the binary search tree
+    struct TreeNode* root = NULL;
+    for (int i = 0; i < n; i++) {
+        root = insertNode(root, arr[i]);
+    }
+
+    // Display the sorted sequence of integers
+    printf("Sorted sequence of integers: ");
+    inorderTraversal(root);
+    printf("\n");
+
+    free(arr); // Free dynamically allocated memory
+
+    return 0;
+}
+
+
+7. Write a C program to display a BST using In-order, Pre-order, Post-order.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to perform inorder traversal of the binary search tree
+void inorderTraversal(struct TreeNode* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+// Function to perform preorder traversal of the binary search tree
+void preorderTraversal(struct TreeNode* root) {
+    if (root != NULL) {
+        printf("%d ", root->data);
+        preorderTraversal(root->left);
+        preorderTraversal(root->right);
+    }
+}
+
+// Function to perform postorder traversal of the binary search tree
+void postorderTraversal(struct TreeNode* root) {
+    if (root != NULL) {
+        postorderTraversal(root->left);
+        postorderTraversal(root->right);
+        printf("%d ", root->data);
+    }
+}
+
+int main() {
+    // Construct the binary search tree
+    struct TreeNode* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Display the BST using inorder traversal
+    printf("BST using In-order traversal: ");
+    inorderTraversal(root);
+    printf("\n");
+
+    // Display the BST using preorder traversal
+    printf("BST using Pre-order traversal: ");
+    preorderTraversal(root);
+    printf("\n");
+
+    // Display the BST using postorder traversal
+    printf("BST using Post-order traversal: ");
+    postorderTraversal(root);
+    printf("\n");
+
+    return 0;
+}
+
+
+8. Write a C program to Count the number of nodes present in an existing BST and display the
+highest element present in the BST.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to count the number of nodes present in the binary search tree
+int countNodes(struct TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    else
+        return 1 + countNodes(root->left) + countNodes(root->right);
+}
+
+// Function to find the highest element present in the binary search tree
+int findHighestElement(struct TreeNode* root) {
+    if (root == NULL)
+        return -1; // Assuming -1 represents an empty tree
+
+    while (root->right != NULL) {
+        root = root->right;
+    }
+    return root->data;
+}
+
+int main() {
+    // Construct the binary search tree
+    struct TreeNode* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Count the number of nodes present in the BST
+    int nodeCount = countNodes(root);
+    printf("Number of nodes present in the BST: %d\n", nodeCount);
+
+    // Find and display the highest element present in the BST
+    int highestElement = findHighestElement(root);
+    if (highestElement != -1)
+        printf("Highest element present in the BST: %d\n", highestElement);
+    else
+        printf("The BST is empty.\n");
+
+    return 0;
+}
+
+
+9. Write a C program to prove that binary search tree is better than binary tree.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Structure for a binary tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node for a binary tree
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into a binary tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to search for an element in a binary tree (returns 1 if found, 0 otherwise)
+int searchBinaryTree(struct TreeNode* root, int key) {
+    if (root == NULL)
+        return 0;
+    if (root->data == key)
+        return 1;
+    return searchBinaryTree(root->left, key) || searchBinaryTree(root->right, key);
+}
+
+// Function to search for an element in a binary search tree (returns 1 if found, 0 otherwise)
+int searchBST(struct TreeNode* root, int key) {
+    while (root != NULL) {
+        if (root->data == key)
+            return 1;
+        else if (key < root->data)
+            root = root->left;
+        else
+            root = root->right;
+    }
+    return 0;
+}
+
+// Function to generate a random number between min and max (inclusive)
+int randomRange(int min, int max) {
+    return rand() % (max - min + 1) + min;
+}
+
+int main() {
+    struct TreeNode* rootBinaryTree = NULL;
+    struct TreeNode* rootBST = NULL;
+    int n = 10000; // Number of elements in the tree
+    int keyToSearch = randomRange(1, n); // Random key to search for
+
+    // Insert n random elements into both binary tree and binary search tree
+    for (int i = 0; i < n; i++) {
+        int data = randomRange(1, n);
+        rootBinaryTree = insertNode(rootBinaryTree, data);
+        rootBST = insertNode(rootBST, data);
+    }
+
+    // Measure time taken to search for the key in the binary tree
+    clock_t startTime = clock();
+    int foundBinaryTree = searchBinaryTree(rootBinaryTree, keyToSearch);
+    clock_t endTime = clock();
+    double timeTakenBinaryTree = (double)(endTime - startTime) / CLOCKS_PER_SEC;
+
+    // Measure time taken to search for the key in the binary search tree
+    startTime = clock();
+    int foundBST = searchBST(rootBST, keyToSearch);
+    endTime = clock();
+    double timeTakenBST = (double)(endTime - startTime) / CLOCKS_PER_SEC;
+
+    // Display results
+    printf("Binary Tree Search: %s\n", foundBinaryTree ? "Found" : "Not found");
+    printf("Time taken for Binary Tree Search: %f seconds\n", timeTakenBinaryTree);
+    printf("Binary Search Tree Search: %s\n", foundBST ? "Found" : "Not found");
+    printf("Time taken for Binary Search Tree Search: %f seconds\n", timeTakenBST);
+
+    return 0;
+}
+
+
+
+week 4
+
+1. Write a C program to search an element recursively in a binary search tree.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to search for an element recursively in the binary search tree
+struct TreeNode* searchBST(struct TreeNode* root, int key) {
+    if (root == NULL || root->data == key)
+        return root;
+
+    if (key < root->data)
+        return searchBST(root->left, key);
+    else
+        return searchBST(root->right, key);
+}
+
+int main() {
+    // Construct the binary search tree
+    struct TreeNode* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Element to search
+    int key = 40;
+
+    // Search for the element recursively in the binary search tree
+    struct TreeNode* result = searchBST(root, key);
+
+    // Display the search result
+    if (result != NULL)
+        printf("Element %d is found in the binary search tree.\n", key);
+    else
+        printf("Element %d is not found in the binary search tree.\n", key);
+
+    return 0;
+}
+
+2. Write a C program to delete a node having no child from a binary search tree.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to perform inorder traversal of the binary search tree
+void inorderTraversal(struct TreeNode* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+// Function to delete a node having no child from the binary search tree
+struct TreeNode* deleteNodeNoChild(struct TreeNode* root, int key) {
+    // Base case: if the tree is empty
+    if (root == NULL)
+        return NULL;
+
+    // Search for the node to be deleted
+    if (key < root->data)
+        root->left = deleteNodeNoChild(root->left, key);
+    else if (key > root->data)
+        root->right = deleteNodeNoChild(root->right, key);
+    else {
+        // Node with no child
+        free(root);
+        return NULL;
+    }
+
+    return root;
+}
+
+int main() {
+    // Construct the binary search tree
+    struct TreeNode* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Display the original binary search tree
+    printf("Original Binary Search Tree (inorder traversal): ");
+    inorderTraversal(root);
+    printf("\n");
+
+    // Delete a node having no child (e.g., node with data = 20)
+    int keyToDelete = 20;
+    root = deleteNodeNoChild(root, keyToDelete);
+
+    // Display the binary search tree after deletion
+    printf("Binary Search Tree after deleting node with data %d (inorder traversal): ", keyToDelete);
+    inorderTraversal(root);
+    printf("\n");
+
+    return 0;
+}
+
+
+3. Write a C program to delete a node having one child from a binary search tree.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to perform inorder traversal of the binary search tree
+void inorderTraversal(struct TreeNode* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+// Function to delete a node having one child from the binary search tree
+struct TreeNode* deleteNodeOneChild(struct TreeNode* root, int key) {
+    // Base case: if the tree is empty
+    if (root == NULL)
+        return NULL;
+
+    // Search for the node to be deleted
+    if (key < root->data)
+        root->left = deleteNodeOneChild(root->left, key);
+    else if (key > root->data)
+        root->right = deleteNodeOneChild(root->right, key);
+    else {
+        // Node with one child or no child
+        if (root->left == NULL) {
+            struct TreeNode* temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL) {
+            struct TreeNode* temp = root->left;
+            free(root);
+            return temp;
+        }
+    }
+
+    return root;
+}
+
+int main() {
+    // Construct the binary search tree
+    struct TreeNode* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Display the original binary search tree
+    printf("Original Binary Search Tree (inorder traversal): ");
+    inorderTraversal(root);
+    printf("\n");
+
+    // Delete a node having one child (e.g., node with data = 30)
+    int keyToDelete = 30;
+    root = deleteNodeOneChild(root, keyToDelete);
+
+    // Display the binary search tree after deletion
+    printf("Binary Search Tree after deleting node with data %d (inorder traversal): ", keyToDelete);
+    inorderTraversal(root);
+    printf("\n");
+
+    return 0;
+}
+
+
+4. Write a C program to delete a node having two children from a binary search
+tree.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to perform inorder traversal of the binary search tree
+void inorderTraversal(struct TreeNode* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+// Function to find the inorder successor of a given node
+struct TreeNode* inorderSuccessor(struct TreeNode* node) {
+    struct TreeNode* current = node->right;
+    while (current != NULL && current->left != NULL)
+        current = current->left;
+    return current;
+}
+
+// Function to delete a node having two children from the binary search tree
+struct TreeNode* deleteNodeTwoChildren(struct TreeNode* root, int key) {
+    // Base case: if the tree is empty
+    if (root == NULL)
+        return NULL;
+
+    // Search for the node to be deleted
+    if (key < root->data)
+        root->left = deleteNodeTwoChildren(root->left, key);
+    else if (key > root->data)
+        root->right = deleteNodeTwoChildren(root->right, key);
+    else {
+        // Node with two children or one child
+        if (root->left == NULL) {
+            struct TreeNode* temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL) {
+            struct TreeNode* temp = root->left;
+            free(root);
+            return temp;
+        }
+
+        // Node with two children
+        struct TreeNode* successor = inorderSuccessor(root);
+        root->data = successor->data;
+        root->right = deleteNodeTwoChildren(root->right, successor->data);
+    }
+
+    return root;
+}
+
+int main() {
+    // Construct the binary search tree
+    struct TreeNode* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Display the original binary search tree
+    printf("Original Binary Search Tree (inorder traversal): ");
+    inorderTraversal(root);
+    printf("\n");
+
+    // Delete a node having two children (e.g., node with data = 30)
+    int keyToDelete = 30;
+    root = deleteNodeTwoChildren(root, keyToDelete);
+
+    // Display the binary search tree after deletion
+    printf("Binary Search Tree after deleting node with data %d (inorder traversal): ", keyToDelete);
+    inorderTraversal(root);
+    printf("\n");
+
+    return 0;
+}
+
+
+5. Write a C program to delete a node from a binary search tree.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to find the inorder successor of a given node
+struct TreeNode* inorderSuccessor(struct TreeNode* node) {
+    struct TreeNode* current = node->right;
+    while (current != NULL && current->left != NULL)
+        current = current->left;
+    return current;
+}
+
+// Function to delete a node from the binary search tree
+struct TreeNode* deleteNode(struct TreeNode* root, int key) {
+    // Base case: if the tree is empty
+    if (root == NULL)
+        return NULL;
+
+    // Search for the node to be deleted
+    if (key < root->data)
+        root->left = deleteNode(root->left, key);
+    else if (key > root->data)
+        root->right = deleteNode(root->right, key);
+    else {
+        // Case 1: Node with no child or one child
+        if (root->left == NULL) {
+            struct TreeNode* temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL) {
+            struct TreeNode* temp = root->left;
+            free(root);
+            return temp;
+        }
+
+        // Case 2: Node with two children
+        struct TreeNode* successor = inorderSuccessor(root);
+        root->data = successor->data;
+        root->right = deleteNode(root->right, successor->data);
+    }
+
+    return root;
+}
+
+// Function to perform inorder traversal of the binary search tree
+void inorderTraversal(struct TreeNode* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+int main() {
+    // Construct the binary search tree
+    struct TreeNode* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Display the original binary search tree
+    printf("Original Binary Search Tree (inorder traversal): ");
+    inorderTraversal(root);
+    printf("\n");
+
+    // Delete a node from the binary search tree (e.g., node with data = 30)
+    int keyToDelete = 30;
+    root = deleteNode(root, keyToDelete);
+
+    // Display the binary search tree after deletion
+    printf("Binary Search Tree after deleting node with data %d (inorder traversal): ", keyToDelete);
+    inorderTraversal(root);
+    printf("\n");
+
+    return 0;
+}
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a binary search tree node
+struct TreeNode {
+    int data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new node
+struct TreeNode* createNode(int data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary search tree
+struct TreeNode* insertNode(struct TreeNode* root, int data) {
+    if (root == NULL)
+        return createNode(data);
+
+    if (data < root->data)
+        root->left = insertNode(root->left, data);
+    else if (data > root->data)
+        root->right = insertNode(root->right, data);
+
+    return root;
+}
+
+// Function to find the inorder successor of a given node
+struct TreeNode* inorderSuccessor(struct TreeNode* node) {
+    struct TreeNode* current = node->right;
+    while (current != NULL && current->left != NULL)
+        current = current->left;
+    return current;
+}
+
+// Function to delete a node from the binary search tree
+struct TreeNode* deleteNode(struct TreeNode* root, int key) {
+    // Base case: if the tree is empty
+    if (root == NULL)
+        return NULL;
+
+    // Search for the node to be deleted
+    if (key < root->data)
+        root->left = deleteNode(root->left, key);
+    else if (key > root->data)
+        root->right = deleteNode(root->right, key);
+    else {
+        // Case 1: Node with no child or one child
+        if (root->left == NULL) {
+            struct TreeNode* temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL) {
+            struct TreeNode* temp = root->left;
+            free(root);
+            return temp;
+        }
+
+        // Case 2: Node with two children
+        struct TreeNode* successor = inorderSuccessor(root);
+        root->data = successor->data;
+        root->right = deleteNode(root->right, successor->data);
+    }
+
+    return root;
+}
+
+// Function to perform inorder traversal of the binary search tree
+void inorderTraversal(struct TreeNode* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+int main() {
+    // Construct the binary search tree
+    struct TreeNode* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    // Display the original binary search tree
+    printf("Original Binary Search Tree (inorder traversal): ");
+    inorderTraversal(root);
+    printf("\n");
+
+    // Delete a node from the binary search tree (e.g., node with data = 30)
+    int keyToDelete = 30;
+    root = deleteNode(root, keyToDelete);
+
+    // Display the binary search tree after deletion
+    printf("Binary Search Tree after deleting node with data %d (inorder traversal): ", keyToDelete);
+    inorderTraversal(root);
+    printf("\n");
+
+    return 0;
+}
+
+1. Write a C program to store the following Graph using Adjacency Matrix &
+display that.  
+
+#include <stdio.h>
+
+// Define the number of vertices
+#define VERTICES 6
+
+// Initialize the graph using an adjacency matrix
+void initializeGraph(int graph[][VERTICES]) {
+    for (int i = 0; i < VERTICES; i++) {
+        for (int j = 0; j < VERTICES; j++) {
+            graph[i][j] = 0;
+        }
+    }
+}
+
+// Add an edge to the graph
+void addEdge(int graph[][VERTICES], int u, int v) {
+    graph[u][v] = 1;
+    graph[v][u] = 1; // For an undirected graph
+}
+
+// Display the adjacency matrix
+void displayGraph(int graph[][VERTICES]) {
+    printf("Adjacency Matrix:\n");
+    for (int i = 0; i < VERTICES; i++) {
+        for (int j = 0; j < VERTICES; j++) {
+            printf("%d ", graph[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int graph[VERTICES][VERTICES];
+
+    // Initialize the graph
+    initializeGraph(graph);
+
+    // Add edges
+    addEdge(graph, 0, 1); // P-Q
+    addEdge(graph, 1, 2); // Q-R
+    addEdge(graph, 2, 3); // R-S
+    addEdge(graph, 3, 4); // S-T
+    addEdge(graph, 4, 5); // T-U
+    addEdge(graph, 0, 4); // P-T
+    addEdge(graph, 2, 5); // R-U
+
+    // Display the adjacency matrix
+    displayGraph(graph);
+
+    return 0;
+}
+
+2. Write a C program to store the following Graph using Adjacency List & display
+that.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int vertex;
+    int weight;
+    struct Node* next;
+} Node;
+
+typedef struct Graph {
+    int numVertices;
+    Node** adjLists;
+} Graph;
+
+Node* createNode(int v, int w) {
+    Node* newNode = malloc(sizeof(Node));
+    newNode->vertex = v;
+    newNode->weight = w;
+    newNode->next = NULL;
+    return newNode;
+}
+
+Graph* createGraph(int vertices) {
+    Graph* graph = malloc(sizeof(Graph));
+    graph->numVertices = vertices;
+    graph->adjLists = malloc(vertices * sizeof(Node*));
+    for (int i = 0; i < vertices; i++)
+        graph->adjLists[i] = NULL;
+    return graph;
+}
+
+void addEdge(Graph* graph, int src, int dest, int weight) {
+    Node* newNode = createNode(dest - 1, weight);
+    newNode->next = graph->adjLists[src - 1];
+    graph->adjLists[src - 1] = newNode;
+
+    // For an undirected graph
+    Node* newNodetwo = createNode(src - 1, weight);
+    newNodetwo->next = graph->adjLists[dest - 1];
+    graph->adjLists[dest - 1] = newNodetwo;
+}
+
+void printGraph(Graph* graph) {
+    for (int v = 0; v < graph->numVertices; v++) {
+        Node* temp = graph->adjLists[v];
+        printf("\nAdjacency list of vertex %c:\n", v + 'A'); // ASCII value of 'A'
+        while (temp) {
+            printf("(%c -> %c, Weight: %d) ", v + 'A', temp->vertex + 'A', temp->weight);
+            temp = temp->next;
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    Graph* graph = createGraph(6);
+
+    addEdge(graph, 1, 2, 1); // A-B
+    addEdge(graph, 1, 4, 6); // A-E
+
+    addEdge(graph, 2, 3, 1); // B-C
+    addEdge(graph, 2, 4, 4); // B-E
+
+    addEdge(graph, 3, 4, 2); // C-D
+
+    addEdge(graph, 4, 5, 2); // E-F
+    addEdge(graph, 3, 5, 3); // D-F
+
+    printGraph(graph);
+
+    return 0;
+}
+
+
+3. Write a C program to count number of vertices and edges present in a graph.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_VERTICES 100
+
+// Structure for a node in adjacency list
+struct ListNode {
+    int vertex;
+    struct ListNode* next;
+};
+
+// Structure for the adjacency list
+struct AdjList {
+    struct ListNode* head;
+};
+
+// Structure for the graph
+struct Graph {
+    int numVertices;
+    struct AdjList* array;
+};
+
+// Function to create a new node
+struct ListNode* createNode(int vertex) {
+    struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->vertex = vertex;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to create a graph with given number of vertices
+struct Graph* createGraph(int numVertices) {
+    struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
+    if (graph == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    graph->numVertices = numVertices;
+    graph->array = (struct AdjList*)malloc(numVertices * sizeof(struct AdjList));
+    if (graph->array == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    for (int i = 0; i < numVertices; ++i)
+        graph->array[i].head = NULL;
+    return graph;
+}
+
+// Function to add an edge to the graph
+void addEdge(struct Graph* graph, int src, int dest) {
+    // Add an edge from src to dest
+    struct ListNode* newNode = createNode(dest);
+    newNode->next = graph->array[src].head;
+    graph->array[src].head = newNode;
+
+    // Since the graph is undirected, add an edge from dest to src as well
+    newNode = createNode(src);
+    newNode->next = graph->array[dest].head;
+    graph->array[dest].head = newNode;
+}
+
+// Function to count the number of vertices in the graph
+int countVertices(struct Graph* graph) {
+    return graph->numVertices;
+}
+
+// Function to count the number of edges in the graph
+int countEdges(struct Graph* graph) {
+    int edges = 0;
+    for (int i = 0; i < graph->numVertices; ++i) {
+        struct ListNode* temp = graph->array[i].head;
+        while (temp != NULL) {
+            edges++;
+            temp = temp->next;
+        }
+    }
+    // Since the graph is undirected, divide the total count by 2
+    return edges / 2;
+}
+
+int main() {
+    int numVertices = 5;
+    struct Graph* graph = createGraph(numVertices);
+
+    addEdge(graph, 0, 1);
+    addEdge(graph, 0, 4);
+    addEdge(graph, 1, 2);
+    addEdge(graph, 1, 3);
+    addEdge(graph, 1, 4);
+    addEdge(graph, 2, 3);
+    addEdge(graph, 3, 4);
+
+    printf("Number of vertices in the graph: %d\n", countVertices(graph));
+    printf("Number of edges in the graph: %d\n", countEdges(graph));
+
+    return 0;
+}
+
+
+4. Write a C program to detect a cycle in a graph.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define MAX_VERTICES 100
+
+// Structure for a node in adjacency list
+struct ListNode {
+    int vertex;
+    struct ListNode* next;
+};
+
+// Structure for the adjacency list
+struct AdjList {
+    struct ListNode* head;
+};
+
+// Structure for the graph
+struct Graph {
+    int numVertices;
+    struct AdjList* array;
+};
+
+// Function to create a new node
+struct ListNode* createNode(int vertex) {
+    struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->vertex = vertex;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to create a graph with given number of vertices
+struct Graph* createGraph(int numVertices) {
+    struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
+    if (graph == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    graph->numVertices = numVertices;
+    graph->array = (struct AdjList*)malloc(numVertices * sizeof(struct AdjList));
+    if (graph->array == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    for (int i = 0; i < numVertices; ++i)
+        graph->array[i].head = NULL;
+    return graph;
+}
+
+// Function to add an edge to the graph
+void addEdge(struct Graph* graph, int src, int dest) {
+    // Add an edge from src to dest
+    struct ListNode* newNode = createNode(dest);
+    newNode->next = graph->array[src].head;
+    graph->array[src].head = newNode;
+
+    // Since the graph is undirected, add an edge from dest to src as well
+    newNode = createNode(src);
+    newNode->next = graph->array[dest].head;
+    graph->array[dest].head = newNode;
+}
+
+// Recursive function to perform DFS traversal and detect cycle
+bool isCyclicUtil(struct Graph* graph, int v, bool visited[], int parent) {
+    visited[v] = true;
+
+    // Recur for all the vertices adjacent to this vertex
+    struct ListNode* current = graph->array[v].head;
+    while (current != NULL) {
+        int adjacentVertex = current->vertex;
+        if (!visited[adjacentVertex]) {
+            if (isCyclicUtil(graph, adjacentVertex, visited, v))
+                return true;
+        }
+        // If an adjacent vertex is visited and not the parent of the current vertex, then there is a cycle
+        else if (adjacentVertex != parent)
+            return true;
+        current = current->next;
+    }
+    return false;
+}
+
+// Function to detect cycle in an undirected graph using DFS
+bool isCyclic(struct Graph* graph) {
+    bool* visited = (bool*)malloc(graph->numVertices * sizeof(bool));
+    if (visited == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    for (int i = 0; i < graph->numVertices; ++i)
+        visited[i] = false;
+
+    // Call the recursive helper function to detect cycle in different DFS trees
+    for (int v = 0; v < graph->numVertices; ++v) {
+        if (!visited[v]) {
+            if (isCyclicUtil(graph, v, visited, -1))
+                return true;
+        }
+    }
+    return false;
+}
+
+int main() {
+    int numVertices = 5;
+    struct Graph* graph = createGraph(numVertices);
+
+    addEdge(graph, 0, 1);
+    addEdge(graph, 0, 4);
+    addEdge(graph, 1, 2);
+    addEdge(graph, 1, 3);
+    addEdge(graph, 1, 4);
+    addEdge(graph, 2, 3);
+    addEdge(graph, 3, 4);
+
+    if (isCyclic(graph))
+        printf("The graph contains a cycle.\n");
+    else
+        printf("The graph does not contain a cycle.\n");
+
+    return 0;
+}
+
+
+5. Write a C program to identify number of odd degree vertices and number of
+even degree vertices in a graph.
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_VERTICES 100
+
+// Structure for a node in adjacency list
+struct ListNode {
+    int vertex;
+    struct ListNode* next;
+};
+
+// Structure for the adjacency list
+struct AdjList {
+    struct ListNode* head;
+};
+
+// Structure for the graph
+struct Graph {
+    int numVertices;
+    struct AdjList* array;
+};
+
+// Function to create a new node
+struct ListNode* createNode(int vertex) {
+    struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->vertex = vertex;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to create a graph with given number of vertices
+struct Graph* createGraph(int numVertices) {
+    struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
+    if (graph == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    graph->numVertices = numVertices;
+    graph->array = (struct AdjList*)malloc(numVertices * sizeof(struct AdjList));
+    if (graph->array == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    for (int i = 0; i < numVertices; ++i)
+        graph->array[i].head = NULL;
+    return graph;
+}
+
+// Function to add an edge to the graph
+void addEdge(struct Graph* graph, int src, int dest) {
+    // Add an edge from src to dest
+    struct ListNode* newNode = createNode(dest);
+    newNode->next = graph->array[src].head;
+    graph->array[src].head = newNode;
+
+    // Since the graph is undirected, add an edge from dest to src as well
+    newNode = createNode(src);
+    newNode->next = graph->array[dest].head;
+    graph->array[dest].head = newNode;
+}
+
+// Function to count the degree of each vertex in the graph
+void countDegrees(struct Graph* graph, int* oddDegreeVertices, int* evenDegreeVertices) {
+    for (int i = 0; i < graph->numVertices; ++i) {
+        int degree = 0;
+        struct ListNode* current = graph->array[i].head;
+        while (current != NULL) {
+            degree++;
+            current = current->next;
+        }
+        if (degree % 2 == 0)
+            (*evenDegreeVertices)++;
+        else
+            (*oddDegreeVertices)++;
+    }
+}
+
+int main() {
+    int numVertices = 6;
+    struct Graph* graph = createGraph(numVertices);
+
+    addEdge(graph, 0, 1);
+    addEdge(graph, 0, 2);
+    addEdge(graph, 1, 2);
+    addEdge(graph, 1, 3);
+    addEdge(graph, 2, 4);
+    addEdge(graph, 3, 4);
+    addEdge(graph, 3, 5);
+    addEdge(graph, 4, 5);
+
+    int oddDegreeVertices = 0, evenDegreeVertices = 0;
+    countDegrees(graph, &oddDegreeVertices, &evenDegreeVertices);
+
+    printf("Number of odd degree vertices: %d\n", oddDegreeVertices);
+    printf("Number of even degree vertices: %d\n", evenDegreeVertices);
+
+    return 0;
+}
+
+
+6. Write a C program to check whether a given graph is complete or not.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define MAX_VERTICES 100
+
+// Structure for a node in adjacency list
+struct ListNode {
+    int vertex;
+    struct ListNode* next;
+};
+
+// Structure for the adjacency list
+struct AdjList {
+    struct ListNode* head;
+};
+
+// Structure for the graph
+struct Graph {
+    int numVertices;
+    struct AdjList* array;
+};
+
+// Function to create a new node
+struct ListNode* createNode(int vertex) {
+    struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    if (newNode == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    newNode->vertex = vertex;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to create a graph with given number of vertices
+struct Graph* createGraph(int numVertices) {
+    struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
+    if (graph == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    graph->numVertices = numVertices;
+    graph->array = (struct AdjList*)malloc(numVertices * sizeof(struct AdjList));
+    if (graph->array == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
+    }
+    for (int i = 0; i < numVertices; ++i)
+        graph->array[i].head = NULL;
+    return graph;
+}
+
+// Function to add an edge to the graph
+void addEdge(struct Graph* graph, int src, int dest) {
+    // Add an edge from src to dest
+    struct ListNode* newNode = createNode(dest);
+    newNode->next = graph->array[src].head;
+    graph->array[src].head = newNode;
+
+    // Since the graph is undirected, add an edge from dest to src as well
+    newNode = createNode(src);
+    newNode->next = graph->array[dest].head;
+    graph->array[dest].head = newNode;
+}
+
+// Function to check if a given graph is complete or not
+bool isComplete(struct Graph* graph) {
+    for (int i = 0; i < graph->numVertices; ++i) {
+        struct ListNode* current = graph->array[i].head;
+        bool visited[MAX_VERTICES] = { false };
+
+        // Mark the current vertex as visited
+        visited[i] = true;
+
+        // Traverse the adjacency list of the current vertex
+        while (current != NULL) {
+            int vertex = current->vertex;
+            if (visited[vertex] == false)
+                return false; // If an unvisited adjacent vertex is found, the graph is not complete
+            current = current->next;
+        }
+    }
+    return true; // If all vertices are connected to each other, the graph is complete
+}
+
+int main() {
+    int numVertices = 5;
+    struct Graph* graph = createGraph(numVertices);
+
+    // Add edges to create a sample incomplete graph
+    addEdge(graph, 0, 1);
+    addEdge(graph, 0, 2);
+    addEdge(graph, 1, 3);
+    addEdge(graph, 2, 4);
+    addEdge(graph, 3, 4);
+
+    if (isComplete(graph))
+        printf("The graph is complete.\n");
+    else
+        printf("The graph is not complete.\n");
+
+    return 0;
+}
+
+week 6
+
+
+1. Write a C program to traverse the following graph using Depth First Search
+(DFS) algorithm.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 6
+
+// Adjacency matrix representation of the graph
+int graph[MAX][MAX] = {
+    {0, 1, 0, 0, 0, 6},
+    {1, 0, 1, 0, 4, 0},
+    {0, 1, 0, 0, 0, 1},
+    {0, 0, 0, 0, 3, 2},
+    {0, 4, 0, 3, 0, 2},
+    {6, 0, 1, 2, 2, 0}
+};
+
+// Function to perform DFS traversal
+void DFS(int i, int visited[]) {
+    int j;
+    printf("%c ", i + 80); // Print the node label starting from 'P'
+    visited[i] = 1;
+
+    for (j = 0; j < MAX; j++) {
+        if (!visited[j] && graph[i][j] != 0) {
+            DFS(j, visited);
+        }
+    }
+}
+
+int main() {
+    int i, visited[MAX] = {0};
+
+    // Starting the DFS traversal from node 'P' which is index 0
+    printf("DFS Traversal: ");
+    DFS(0, visited);
+    printf("\n");
+
+    return 0;
+}
+
+
+
+2. Write a C program to traverse the following graph using Breadth First Search
+(BFS) algorithm.
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 6
+
+// Function to add an edge to the graph
+void addEdge(int graph[][MAX], int src, int dest, int weight) {
+    graph[src][dest] = weight;
+    graph[dest][src] = weight;
+}
+
+// Function to perform BFS traversal
+void BFS(int startNode, int graph[][MAX], int visited[]) {
+    int queue[MAX], front = 0, rear = 0, i;
+
+    // Enqueue the starting node
+    queue[rear++] = startNode;
+    visited[startNode] = 1;
+
+    while (front < rear) {
+        int currentNode = queue[front++];
+
+        printf("%c ", currentNode + 80); // Print the node label starting from 'P'
+
+        for (i = 0; i < MAX; i++) {
+            if (graph[currentNode][i] != 0 && !visited[i]) {
+                queue[rear++] = i;
+                visited[i] = 1;
+            }
+        }
+    }
+}
+
+int main() {
+    int graph[MAX][MAX] = {0}, visited[MAX] = {0};
+
+    // Add edges to the graph as per the given image
+    addEdge(graph, 0, 1, 1); // P-Q
+    addEdge(graph, 0, 4, 6); // P-S
+    addEdge(graph, 1, 2, 1); // Q-R
+    addEdge(graph, 4, 1, 4); // S-Q
+    addEdge(graph, 4, 2, 2); // S-R
+    addEdge(graph, 4, 3, 3); // S-T
+    addEdge(graph, 3, 0, 7); // T-P
+    addEdge(graph, 3, 5, 2); // T-U
+
+    // Starting the BFS traversal from node 'P' which is index 0
+    printf("BFS Traversal: ");
+    BFS(0, graph, visited);
+    printf("\n");
+
+    return 0;
+}
+
+
+
+
+
