@@ -1,0 +1,559 @@
+===========================================================================================
+=======================================================================================
+
+
+BINARY SEARCH TREE
+
+
+Write a C program to create a binary search tree using recursive function and display that.
+Write a C program to insert (by using a function) a specific element into an existing binary search tree and then display that.
+4. Write a C program to search an element in a BST and show the result.
+Write a C program to display a BST using In-order, Pre-order, Post-order.
+8. Write a C program to Count the number of nodes present in an existing BST and display the highest element present in the BST.
+  
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct Node* insert(struct Node* root, int data) {
+    if (root == NULL) {
+        root = createNode(data);
+    } else {
+        if (data <= root->data) {
+            root->left = insert(root->left, data);
+        } else {
+            root->right = insert(root->right, data);
+        }
+    }
+    return root;
+}
+
+struct Node* search(struct Node* root, int key) {
+    if (root == NULL || root->data == key) {
+        return root;
+    }
+    
+    if (key < root->data) {
+        return search(root->left, key);
+    }
+    
+    return search(root->right, key);
+}
+
+void inorder(struct Node* root) {
+    if (root == NULL) return;
+    
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+}
+
+void preorder(struct Node* root) {
+    if (root == NULL) return;
+    
+    printf("%d ", root->data);
+    preorder(root->left);
+    preorder(root->right);
+}
+
+void postorder(struct Node* root) {
+    if (root == NULL) return;
+    
+    postorder(root->left);
+    postorder(root->right);
+    printf("%d ", root->data);
+}
+
+int countNodes(struct Node* root) {
+    if (root == NULL) return 0;
+    
+    return 1 + countNodes(root->left) + countNodes(root->right);
+}
+
+int findMax(struct Node* root) {
+    if (root == NULL) {
+        printf("The tree is empty.\n");
+        return -1;
+    }
+    
+    while (root->right != NULL) {
+        root = root->right;
+    }
+    
+    return root->data;
+}
+
+int main() {
+    struct Node* root = NULL;
+    int choice, data, key;
+    
+    do {
+        printf("\n\n1. Insert element into BST\n");
+        printf("2. Display BST (In-order)\n");
+        printf("3. Display BST (Pre-order)\n");
+        printf("4. Display BST (Post-order)\n");
+        printf("5. Search element in BST\n");
+        printf("6. Count nodes in BST\n");
+        printf("7. Find highest element in BST\n");
+        printf("8. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1:
+                printf("Enter data to insert: ");
+                scanf("%d", &data);
+                root = insert(root, data);
+                break;
+            case 2:
+                printf("BST (In-order): ");
+                inorder(root);
+                break;
+            case 3:
+                printf("BST (Pre-order): ");
+                preorder(root);
+                break;
+            case 4:
+                printf("BST (Post-order): ");
+                postorder(root);
+                break;
+            case 5:
+                printf("Enter element to search: ");
+                scanf("%d", &key);
+                if (search(root, key) != NULL) {
+                    printf("%d found in BST.\n", key);
+                } else {
+                    printf("%d not found in BST.\n", key);
+                }
+                break;
+            case 6:
+                printf("Number of nodes in BST: %d\n", countNodes(root));
+                break;
+            case 7:
+                printf("Highest element in BST: %d\n", findMax(root));
+                break;
+            case 8:
+                printf("Exiting program...\n");
+                break;
+            default:
+                printf("Invalid choice! Please enter a valid option.\n");
+        }
+    } while(choice != 8);
+    
+    return 0;
+}
+
+
+======================================================================================
+======================================================================================
+
+Write a C program to create a binary search tree using non-recursive function and display that.      
+Write a C program to take user name as input and display the sorted sequence of characters using BST.    
+ Write a C program to sort a given set of integers using BST.    
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+void insert(struct Node** root, int data) {
+    struct Node* newNode = createNode(data);
+    
+    if (*root == NULL) {
+        *root = newNode;
+        return;
+    }
+    
+    struct Node* current = *root;
+    struct Node* parent = NULL;
+    
+    while (1) {
+        parent = current;
+        
+        if (data <= current->data) {
+            current = current->left;
+            if (current == NULL) {
+                parent->left = newNode;
+                return;
+            }
+        } else {
+            current = current->right;
+            if (current == NULL) {
+                parent->right = newNode;
+                return;
+            }
+        }
+    }
+}
+
+void inorder(struct Node* root) {
+    if (root == NULL) return;
+    
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+}
+
+int main() {
+    struct Node* root = NULL;
+    int arr[] = {50, 30, 70, 20, 40, 60, 80};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    
+    for (int i = 0; i < size; i++) {
+        insert(&root, arr[i]);
+    }
+    
+    printf("Binary Search Tree (In-order): ");
+    inorder(root);
+    
+    return 0;
+}
+
+
+----------------------------------------------------------------------------
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Node {
+    char data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(char data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+void insert(struct Node** root, char data) {
+    struct Node* newNode = createNode(data);
+    
+    if (*root == NULL) {
+        *root = newNode;
+        return;
+    }
+    
+    struct Node* current = *root;
+    struct Node* parent = NULL;
+    
+    while (1) {
+        parent = current;
+        
+        if (data <= current->data) {
+            current = current->left;
+            if (current == NULL) {
+                parent->left = newNode;
+                return;
+            }
+        } else {
+            current = current->right;
+            if (current == NULL) {
+                parent->right = newNode;
+                return;
+            }
+        }
+    }
+}
+
+void inorder(struct Node* root) {
+    if (root == NULL) return;
+    
+    inorder(root->left);
+    printf("%c ", root->data);
+    inorder(root->right);
+}
+
+int main() {
+    char name[100];
+    printf("Enter your name: ");
+    scanf("%s", name);
+    
+    struct Node* root = NULL;
+    int len = strlen(name);
+    
+    for (int i = 0; i < len; i++) {
+        insert(&root, name[i]);
+    }
+    
+    printf("Sorted sequence of characters in your name: ");
+    inorder(root);
+    
+    return 0;
+}
+
+------------------------------------------------------------------------------------
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+void insert(struct Node** root, int data) {
+    struct Node* newNode = createNode(data);
+    
+    if (*root == NULL) {
+        *root = newNode;
+        return;
+    }
+    
+    struct Node* current = *root;
+    struct Node* parent = NULL;
+    
+    while (1) {
+        parent = current;
+        
+        if (data <= current->data) {
+            current = current->left;
+            if (current == NULL) {
+                parent->left = newNode;
+                return;
+            }
+        } else {
+            current = current->right;
+            if (current == NULL) {
+                parent->right = newNode;
+                return;
+            }
+        }
+    }
+}
+
+void inorder(struct Node* root) {
+    if (root == NULL) return;
+    
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+}
+
+int main() {
+    int arr[] = {50, 30, 70, 20, 40, 60, 80};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    struct Node* root = NULL;
+    
+    for (int i = 0; i < size; i++) {
+        insert(&root, arr[i]);
+    }
+    
+    printf("Sorted sequence of integers: ");
+    inorder(root);
+    
+    return 0;
+}
+
+-------------------------------------------------------------------------------
+
+======================================================================================
+========================================================================================
+
+
+1. Write a C program to search an element recursively in a binary search tree.
+2. Write a C program to delete a node having no child from a binary search tree.
+3. Write a C program to delete a node having one child from a binary search tree.
+4. Write a C program to delete a node having two children from a binary search
+tree.
+5. Write a C program to delete a node from a binary search tree. 
+   user input
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct Node* search(struct Node* root, int key) {
+    if (root == NULL || root->data == key) {
+        return root;
+    }
+    
+    if (key < root->data) {
+        return search(root->left, key);
+    }
+    
+    return search(root->right, key);
+}
+
+int main() {
+    struct Node* root = createNode(50);
+    root->left = createNode(30);
+    root->right = createNode(70);
+    root->left->left = createNode(20);
+    root->left->right = createNode(40);
+    root->right->left = createNode(60);
+    root->right->right = createNode(80);
+    
+    int key;
+    printf("Enter element to search: ");
+    scanf("%d", &key);
+    
+    if (search(root, key) != NULL) {
+        printf("%d found in BST.\n", key);
+    } else {
+        printf("%d not found in BST.\n", key);
+    }
+    
+    return 0;
+}
+
+----------------------------------------------------------------------------------
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct Node* insert(struct Node* root, int data) {
+    if (root == NULL) {
+        root = createNode(data);
+    } else {
+        if (data <= root->data) {
+            root->left = insert(root->left, data);
+        } else {
+            root->right = insert(root->right, data);
+        }
+    }
+    return root;
+}
+
+struct Node* deleteNode(struct Node* root, int key) {
+    if (root == NULL) return root;
+    
+    if (key < root->data) {
+        root->left = deleteNode(root->left, key);
+    } else if (key > root->data) {
+        root->right = deleteNode(root->right, key);
+    } else {
+        if (root->left == NULL) {
+            struct Node* temp = root->right;
+            free(root);
+            return temp;
+        } else if (root->right == NULL) {
+            struct Node* temp = root->left;
+            free(root);
+            return temp;
+        }
+        
+        struct Node* temp = root->right;
+        while (temp->left != NULL) {
+            temp = temp->left;
+        }
+        
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+    
+    return root;
+}
+
+void inorder(struct Node* root) {
+    if (root == NULL) return;
+    
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
+}
+
+int main() {
+    struct Node* root = NULL;
+    root = insert(root, 50);
+    root = insert(root, 30);
+    root = insert(root, 70);
+    root = insert(root, 20);
+    root = insert(root, 40);
+    root = insert(root, 60);
+    root = insert(root, 80);
+    
+    printf("Binary Search Tree (In-order) before deletion: ");
+    inorder(root);
+    printf("\n");
+    
+    int key;
+    printf("Enter element to delete: ");
+    scanf("%d", &key);
+    
+    root = deleteNode(root, key);
+    
+    printf("Binary Search Tree (In-order) after deletion: ");
+    inorder(root);
+    printf("\n");
+    
+    return 0;
+}
+
+
+=========================================================================
+==========================================================================
+
+
+
+ 

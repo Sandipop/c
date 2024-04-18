@@ -1,0 +1,614 @@
+1. Write a C program to create a binary tree using recursive function and display that level
+wise.     
+4.Write a C program to identify the height of a binary tree.
+5. Write a C program to identify degree of a given node.
+6. Write a C program to count number of leaf node present in a binary tree.
+7. Write a C program to count number of internal node present in a binary tree.   
+10. Write a C program to count number of siblings present in a binary tree.  menu driven user input
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct Node* insert(struct Node* root, int data) {
+    if (root == NULL) {
+        root = createNode(data);
+    } else {
+        if (data <= root->data) {
+            root->left = insert(root->left, data);
+        } else {
+            root->right = insert(root->right, data);
+        }
+    }
+    return root;
+}
+
+void printLevelOrder(struct Node* root) {
+    if (root == NULL) return;
+    
+    // Create an empty queue for level order traversal
+    struct Node** queue = (struct Node**)malloc(100 * sizeof(struct Node*));
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+    
+    while (front < rear) {
+        struct Node* current = queue[front++];
+        printf("%d ", current->data);
+        
+        if (current->left != NULL) {
+            queue[rear++] = current->left;
+        }
+        if (current->right != NULL) {
+            queue[rear++] = current->right;
+        }
+    }
+    
+    free(queue);
+}
+
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+int findHeight(struct Node* root) {
+    if (root == NULL) return -1;
+    
+    return max(findHeight(root->left), findHeight(root->right)) + 1;
+}
+
+int findDegree(struct Node* root, int data) {
+    if (root == NULL) return -1;
+    
+    if (root->data == data) {
+        if (root->left != NULL && root->right != NULL) {
+            return 2;
+        } else if (root->left != NULL || root->right != NULL) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    
+    int leftDegree = findDegree(root->left, data);
+    int rightDegree = findDegree(root->right, data);
+    
+    if (leftDegree != -1) return leftDegree;
+    if (rightDegree != -1) return rightDegree;
+    
+    return -1;
+}
+
+int countLeafNodes(struct Node* root) {
+    if (root == NULL) return 0;
+    
+    if (root->left == NULL && root->right == NULL) return 1;
+    
+    return countLeafNodes(root->left) + countLeafNodes(root->right);
+}
+
+int countInternalNodes(struct Node* root) {
+    if (root == NULL || (root->left == NULL && root->right == NULL)) return 0;
+    
+    return 1 + countInternalNodes(root->left) + countInternalNodes(root->right);
+}
+
+int countSiblings(struct Node* root, int data) {
+    if (root == NULL || (root->left == NULL && root->right == NULL)) return 0;
+    
+    if ((root->left != NULL && root->left->data == data) || (root->right != NULL && root->right->data == data)) {
+        return 1;
+    }
+    
+    return countSiblings(root->left, data) + countSiblings(root->right, data);
+}
+
+int main() {
+    struct Node* root = NULL;
+    int choice, data, nodeData;
+    
+    do {
+        printf("\n\n1. Insert\n");
+        printf("2. Display Level-wise\n");
+        printf("3. Height of the Binary Tree\n");
+        printf("4. Degree of a Given Node\n");
+        printf("5. Count Leaf Nodes\n");
+        printf("6. Count Internal Nodes\n");
+        printf("7. Count Siblings\n");
+        printf("8. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1:
+                printf("Enter data to insert: ");
+                scanf("%d", &data);
+                root = insert(root, data);
+                break;
+            case 2:
+                printf("Level-wise display: ");
+                printLevelOrder(root);
+                break;
+            case 3:
+                printf("Height of the binary tree: %d", findHeight(root));
+                break;
+            case 4:
+                printf("Enter node data to find its degree: ");
+                scanf("%d", &nodeData);
+                printf("Degree of %d: %d", nodeData, findDegree(root, nodeData));
+                break;
+            case 5:
+                printf("Number of leaf nodes: %d", countLeafNodes(root));
+                break;
+            case 6:
+                printf("Number of internal nodes: %d", countInternalNodes(root));
+                break;
+            case 7:
+                printf("Enter node data to count its siblings: ");
+                scanf("%d", &nodeData);
+                printf("Number of siblings of %d: %d", nodeData, countSiblings(root, nodeData));
+                break;
+            case 8:
+                printf("Exiting program...");
+                break;
+            default:
+                printf("Invalid choice! Please enter a valid option.");
+        }
+    } while(choice != 8);
+    
+    return 0;
+}
+
+============================================================================================================
+===============================================================================================================
+
+Create a binary tree using non-recursive function and display it level-wise:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+void insert(struct Node* root, int data) {
+    struct Node* newNode = createNode(data);
+    struct Node* current = root;
+    struct Node* parent = NULL;
+    
+    while (current != NULL) {
+        parent = current;
+        if (data <= current->data) {
+            current = current->left;
+        } else {
+            current = current->right;
+        }
+    }
+    
+    if (data <= parent->data) {
+        parent->left = newNode;
+    } else {
+        parent->right = newNode;
+    }
+}
+
+void printLevelOrder(struct Node* root) {
+    if (root == NULL) return;
+    
+    struct Node* queue[MAX_SIZE];
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+    
+    while (front < rear) {
+        struct Node* current = queue[front++];
+        printf("%d ", current->data);
+        
+        if (current->left != NULL) {
+            queue[rear++] = current->left;
+        }
+        if (current->right != NULL) {
+            queue[rear++] = current->right;
+        }
+    }
+}
+
+int main() {
+    struct Node* root = createNode(10);
+    insert(root, 5);
+    insert(root, 15);
+    insert(root, 3);
+    insert(root, 7);
+    insert(root, 12);
+    insert(root, 20);
+    
+    printf("Level-wise display: ");
+    printLevelOrder(root);
+    
+    return 0;
+}
+
+
+================================================================================================
+================================================================================================
+
+Create a binary tree using array only and display it level-wise:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct Node* createBinaryTreeFromArray(int arr[], int size, int index) {
+    struct Node* root = NULL;
+    
+    if (index < size) {
+        root = createNode(arr[index]);
+        root->left = createBinaryTreeFromArray(arr, size, 2 * index + 1);
+        root->right = createBinaryTreeFromArray(arr, size, 2 * index + 2);
+    }
+    
+    return root;
+}
+
+void printLevelOrder(struct Node* root) {
+    if (root == NULL) return;
+    
+    struct Node* queue[MAX_SIZE];
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+    
+    while (front < rear) {
+        struct Node* current = queue[front++];
+        printf("%d ", current->data);
+        
+        if (current->left != NULL) {
+            queue[rear++] = current->left;
+        }
+        if (current->right != NULL) {
+            queue[rear++] = current->right;
+        }
+    }
+}
+
+int main() {
+    int arr[] = {1, 2, 3, 4, 5, 6, 7};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    
+    struct Node* root = createBinaryTreeFromArray(arr, size, 0);
+    
+    printf("Level-wise display: ");
+    printLevelOrder(root);
+    
+    return 0;
+}
+
+
+======================================================================================
+======================================================================================
+
+Counting the number of nodes in a binary tree using linked list:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+int countNodes(struct Node* root) {
+    if (root == NULL) return 0;
+    
+    return 1 + countNodes(root->left) + countNodes(root->right);
+}
+
+int main() {
+    struct Node* root = createNode(10);
+    root->left = createNode(5);
+    root->right = createNode(15);
+    root->left->left = createNode(3);
+    root->left->right = createNode(7);
+    root->right->left = createNode(12);
+    root->right->right = createNode(20);
+    
+    printf("Number of nodes in the binary tree: %d\n", countNodes(root));
+    
+    return 0;
+}
+
+=============================================================================
+=============================================================================
+
+Counting the number of nodes in a binary tree using an array:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct Node* createBinaryTreeFromArray(int arr[], int size, int index) {
+    struct Node* root = NULL;
+    
+    if (index < size) {
+        root = createNode(arr[index]);
+        root->left = createBinaryTreeFromArray(arr, size, 2 * index + 1);
+        root->right = createBinaryTreeFromArray(arr, size, 2 * index + 2);
+    }
+    
+    return root;
+}
+
+int countNodesArray(struct Node* root) {
+    if (root == NULL) return 0;
+    
+    int count = 0;
+    struct Node* queue[100];
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+    
+    while (front < rear) {
+        struct Node* current = queue[front++];
+        count++;
+        
+        if (current->left != NULL) {
+            queue[rear++] = current->left;
+        }
+        if (current->right != NULL) {
+            queue[rear++] = current->right;
+        }
+    }
+    
+    return count;
+}
+
+int main() {
+    int arr[] = {1, 2, 3, 4, 5, 6, 7};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    
+    struct Node* root = createBinaryTreeFromArray(arr, size, 0);
+    
+    printf("Number of nodes in the binary tree (using array): %d\n", countNodesArray(root));
+    
+    return 0;
+}
+
+
+
+==================================================================================
+==================================================================================
+
+
+sorting
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function prototypes
+void bubbleSort(int arr[], int n);
+void selectionSort(int arr[], int n);
+void insertionSort(int arr[], int n);
+void mergeSort(int arr[], int left, int right);
+void merge(int arr[], int left, int mid, int right);
+void quickSort(int arr[], int low, int high);
+int partition(int arr[], int low, int high);
+void swap(int* a, int* b);
+void printArray(int arr[], int n);
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Original array: ");
+    printArray(arr, n);
+    printf("\n");
+
+    printf("Sorting using Bubble Sort: ");
+    bubbleSort(arr, n);
+    printArray(arr, n);
+    printf("\n");
+
+    printf("Sorting using Selection Sort: ");
+    selectionSort(arr, n);
+    printArray(arr, n);
+    printf("\n");
+
+    printf("Sorting using Insertion Sort: ");
+    insertionSort(arr, n);
+    printArray(arr, n);
+    printf("\n");
+
+    printf("Sorting using Merge Sort: ");
+    mergeSort(arr, 0, n - 1);
+    printArray(arr, n);
+    printf("\n");
+
+    printf("Sorting using Quick Sort: ");
+    quickSort(arr, 0, n - 1);
+    printArray(arr, n);
+    printf("\n");
+
+    return 0;
+}
+
+// Bubble Sort
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(&arr[j], &arr[j + 1]);
+            }
+        }
+    }
+}
+
+// Selection Sort
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int min_index = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[min_index]) {
+                min_index = j;
+            }
+        }
+        swap(&arr[min_index], &arr[i]);
+    }
+}
+
+// Insertion Sort
+void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+// Merge Sort
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
+void merge(int arr[], int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    int L[n1], R[n2];
+
+    for (int i = 0; i < n1; i++) {
+        L[i] = arr[left + i];
+    }
+    for (int j = 0; j < n2; j++) {
+        R[j] = arr[mid + 1 + j];
+    }
+
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k++] = L[i++];
+        } else {
+            arr[k++] = R[j++];
+        }
+    }
+
+    while (i < n1) {
+        arr[k++] = L[i++];
+    }
+
+    while (j < n2) {
+        arr[k++] = R[j++];
+    }
+}
+
+// Quick Sort
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+
+    for (int j = low; j <= high - 1; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+// Utility function to swap two elements
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Utility function to print an array
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+
+
